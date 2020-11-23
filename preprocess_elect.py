@@ -131,7 +131,7 @@ if __name__ == '__main__':
                 zfile.extractall(save_path)
 
     data_frame = pd.read_csv(csv_path, sep=";", index_col=0, parse_dates=True, decimal=',')
-    print(list(data_frame)[:args.num_ts])
+    print(list(data_frame)[:int(args.num_ts)])
 
     data_frame = data_frame[list(data_frame)[:args.num_ts]]
     data_frame = data_frame.resample('1H',label = 'left',closed = 'right').sum()[train_start:test_end]
