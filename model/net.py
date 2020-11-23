@@ -127,6 +127,23 @@ def loss_fn(mu: Variable, sigma: Variable, labels: Variable):
     return -torch.mean(likelihood)
 
 
+def gaussian_likelihood_loss(mu: Variable, sigma: Variable, labels: Variable):
+    '''
+    Gaussian Liklihood Loss
+    Args:
+    labels (tensor): true observations, shape (num_ts, num_periods)
+    mu (tensor): mean, shape (num_ts, num_periods)
+    sigma (tensor): standard deviation, shape (num_ts, num_periods)
+    likelihood: 
+    (2 pi sigma^2)^(-1/2) exp(-(labels - mu)^2 / (2 sigma^2))
+    log likelihood:
+    -1/2 * (log (2 pi) + 2 * log (sigma)) - (labels - mu)^2 / (2 sigma^2)
+    '''
+
+    negative_likelihood = torch.log(sigma + 1) + (labels - mu) ** 2 / (2 * sigma ** 2) + 6
+    return negative_likelihood.mean()
+
+
 # if relative is set to True, metrics are not normalized by the scale of labels
 def accuracy_ND(mu: torch.Tensor, labels: torch.Tensor, relative = False):
     zero_index = (labels != 0)

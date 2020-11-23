@@ -12,7 +12,7 @@ import model.net as net
 from dataloader import *
 
 import matplotlib
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 logger = logging.getLogger('DeepAR.Eval')

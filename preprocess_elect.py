@@ -22,6 +22,10 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--num_ts', default=370, help='number of timeseries')
+
 def prep_data(data, covariates, data_start, train = True):
     #print("train: ", train)
     time_len = data.shape[0]
@@ -100,6 +104,7 @@ def visualize(data, week_start):
 if __name__ == '__main__':
 
     global save_path
+    args = parser.parse_args()
     name = 'LD2011_2014.txt'
     save_name = 'elect'
     window_size = 192
@@ -123,6 +128,7 @@ if __name__ == '__main__':
                 zfile.extractall(save_path)
 
     data_frame = pd.read_csv(csv_path, sep=";", index_col=0, parse_dates=True, decimal=',')
+    data_frame = data_frame[list(data_frame)[:args.num_ts]]
     data_frame = data_frame.resample('1H',label = 'left',closed = 'right').sum()[train_start:test_end]
     data_frame.fillna(0, inplace=True)
     covariates = gen_covariates(data_frame[train_start:test_end].index, num_covariates)

@@ -15,7 +15,7 @@ from evaluate import evaluate
 from dataloader import *
 
 import matplotlib
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 logger = logging.getLogger('DeepAR.Train')
@@ -30,6 +30,10 @@ parser.add_argument('--save-best', action='store_true', help='Whether to save be
 parser.add_argument('--restore-file', default=None,
                     help='Optional, name of the file in --model_dir containing weights to reload before \
                     training')  # 'best' or 'epoch_#'
+parser.add_argument('--num_ts', default=370, help='number of timeseries')
+parser.add_argument('--sampling', action='store_true', help='Whether to sample during evaluation')
+parser.add_argument('--gaussian', action='store_true', help='Whether to use Gaussian Loss')
+
 
 
 def train(model: nn.Module,
@@ -176,6 +180,7 @@ if __name__ == '__main__':
     params.sampling =  args.sampling
     params.model_dir = model_dir
     params.plot_dir = os.path.join(model_dir, 'figures')
+    params.num_class = args.num_ts
 
     # create missing directories
     try:
@@ -211,7 +216,11 @@ if __name__ == '__main__':
     optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
 
     # fetch loss function
-    loss_fn = net.loss_fn
+    if args.gaussian:
+        loss_fn = net.gaussian_likelihood_loss
+    else:
+        loss_fn = net.loss_fn
+    
 
     # Train the model
     logger.info('Starting training for {} epoch(s)'.format(params.num_epochs))
