@@ -31,7 +31,6 @@ parser.add_argument('--restore-file', default=None,
                     help='Optional, name of the file in --model_dir containing weights to reload before \
                     training')  # 'best' or 'epoch_#'
 parser.add_argument('--num_ts', default=370, help='number of timeseries')
-parser.add_argument('--sampling', action='store_true', help='Whether to sample during evaluation')
 parser.add_argument('--gaussian', action='store_true', help='Whether to use Gaussian Loss')
 
 
