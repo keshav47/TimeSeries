@@ -40,8 +40,10 @@ def evaluate(model, loss_fn, test_loader, params, plot_num, sample=True):
     '''
     model.eval()
     with torch.no_grad():
-      plot_batch = np.random.randint(len(test_loader)-1)
-
+      try:  
+        plot_batch = np.random.randint(len(test_loader)-1)
+      except:
+        plot_batch = 0
       summary_metric = {}
       raw_metrics = utils.init_metrics(sample=sample)
 
