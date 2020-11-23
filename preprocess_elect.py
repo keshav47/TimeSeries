@@ -106,7 +106,6 @@ if __name__ == '__main__':
 
     global save_path
     args = parser.parse_args()
-    print(args.num_ts)
     
     name = 'LD2011_2014.txt'
     save_name = 'elect'
@@ -131,9 +130,8 @@ if __name__ == '__main__':
                 zfile.extractall(save_path)
 
     data_frame = pd.read_csv(csv_path, sep=";", index_col=0, parse_dates=True, decimal=',')
-    print(list(data_frame)[:int(args.num_ts)])
 
-    data_frame = data_frame[list(data_frame)[:args.num_ts]]
+    data_frame = data_frame[list(data_frame)[:int(args.num_ts)]]
     data_frame = data_frame.resample('1H',label = 'left',closed = 'right').sum()[train_start:test_end]
     data_frame.fillna(0, inplace=True)
     covariates = gen_covariates(data_frame[train_start:test_end].index, num_covariates)

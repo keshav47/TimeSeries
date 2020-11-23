@@ -180,7 +180,7 @@ if __name__ == '__main__':
     params.sampling =  args.sampling
     params.model_dir = model_dir
     params.plot_dir = os.path.join(model_dir, 'figures')
-    params.num_class = args.num_ts
+    params.num_class = int(args.num_ts)
 
     # create missing directories
     try:
