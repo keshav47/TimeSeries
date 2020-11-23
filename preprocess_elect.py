@@ -106,6 +106,9 @@ if __name__ == '__main__':
 
     global save_path
     args = parser.parse_args()
+    print(args.num_ts)
+    print(list(data_frame)[:args.num_ts])
+
     name = 'LD2011_2014.txt'
     save_name = 'elect'
     window_size = 192
